@@ -42,5 +42,20 @@ namespace Tests
             string returnMood = mood.analyseMood();
             Assert.AreEqual("happy", returnMood);
         }
+
+        /// <checkForNullHappy>
+        /// Calling parameteried constructor
+        /// Calling No parameter analyseMood method
+        /// checking return mood is "happy" are not
+        /// if return mood "happy" then Test passed.
+        /// </checkForNullHappy>
+        [Test]
+        public void checkForNullHappy()
+        {
+            string message = null;
+            mood = new MoodAnalyser(message);
+            string returnMood = mood.analyseMood();
+            Assert.AreEqual("happy", returnMood);
+        }
     }
 }
