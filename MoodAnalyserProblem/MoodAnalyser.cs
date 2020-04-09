@@ -19,6 +19,27 @@ namespace MoodAnalyserProblem
             this.message = message;            
         }
 
+        // customized excetion extends(inheritance) Exception(inbulit library 
+        class MoodAnalysisException:Exception
+        {
+            //Exceptiontype variable declared
+            Exceptiontype type;
+
+            //enum declarationn to give constant values
+            public enum Exceptiontype
+            {
+                INVALID_STRING,STRING_NULL
+            }
+            /// <MoodAnalysisException>
+            ///
+            /// base: calling to super class (in this our super class is constructor)
+            /// </MoodAnalysisException>
+            public MoodAnalysisException(Exceptiontype type, string message):base(message)
+            {
+                this.type = type;                
+            }
+        }
+
         /// <analyseMood>
         /// Method to return the mood analysis
         /// If user provide Invalid mood ,it return
@@ -30,6 +51,17 @@ namespace MoodAnalyserProblem
         {
             try
             {
+                if(message==null)
+                {
+                    //Calling MoodAnalysisException(Exception type->enum, message)
+                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.STRING_NULL, "null input passed");
+                }
+                if (message.Length == 0)
+                {
+                    //Calling MoodAnalysisException(Exception type->enum, message)
+                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.INVALID_STRING, "String is empty");
+                }
+
                 if (message.Contains("sad"))
                 {
                     return "sad";
@@ -39,9 +71,9 @@ namespace MoodAnalyserProblem
                     return "happy";
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                return "happy";
+                return ex.Message;
             }
         }
     }

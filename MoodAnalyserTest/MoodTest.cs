@@ -7,7 +7,6 @@ namespace Tests
     {
         MoodAnalyser mood = null;
 
-
        [SetUp]
         public void Setup()
         {
@@ -43,19 +42,34 @@ namespace Tests
             Assert.AreEqual("happy", returnMood);
         }
 
-        /// <checkForNullHappy>
-        /// Calling parameteried constructor
+        /// <checkForNullException>
+        /// passing "null" in parameteried constructor
         /// Calling No parameter analyseMood method
-        /// checking return mood is "happy" are not
-        /// if return mood "happy" then Test passed.
-        /// </checkForNullHappy>
+        /// checking return mood is "null input passed"
+        /// if return mood "null input passed" then Test passed.
+        /// </checkForNullException>
         [Test]
-        public void checkForNullHappy()
+        public void checkForNullException()
         {
             string message = null;
             mood = new MoodAnalyser(message);
             string returnMood = mood.analyseMood();
-            Assert.AreEqual("happy", returnMood);
+            Assert.AreEqual("null input passed", returnMood);
+        }
+
+        /// <checkForEmptyMoodException>
+        /// passing "null" in parameteried constructor
+        /// Calling No parameter analyseMood method
+        /// checking return mood is "null input passed"
+        /// if return mood "null input passed" then Test passed.
+        /// </checkForEmptyMoodException>
+        [Test]
+        public void checkForEmptyMoodException()
+        {
+            string message = "";
+            mood = new MoodAnalyser(message);
+            string returnMood = mood.analyseMood();
+            Assert.AreEqual("String is empty", returnMood);
         }
     }
 }
