@@ -19,8 +19,8 @@ namespace MoodAnalyserProblem
             this.message = message;            
         }
 
-        // customized excetion extends(inheritance) Exception(inbulit library 
-        class MoodAnalysisException:Exception
+        // customized(user) excetion extends(inheritance) Exception(inbulit library) 
+        public class MoodAnalysisException:Exception
         {
             //Exceptiontype variable declared
             Exceptiontype type;
@@ -28,10 +28,13 @@ namespace MoodAnalyserProblem
             //enum declarationn to give constant values
             public enum Exceptiontype
             {
-                INVALID_STRING,STRING_NULL
+                INVALID_STRING,
+                STRING_NULL,
+                OBJECT_CREATION_ERROR,
+                NO_SUCH_METHOD_ERROR,
+                NO_SUCH_CLASS_ERROR
             }
             /// <MoodAnalysisException>
-            ///
             /// base: calling to super class (in this our super class is constructor)
             /// </MoodAnalysisException>
             public MoodAnalysisException(Exceptiontype type, string message):base(message)
@@ -71,9 +74,9 @@ namespace MoodAnalyserProblem
                     return "happy";
                 }
             }
-            catch(Exception ex)
+            catch(Exception exception)
             {
-                return ex.Message;
+                return exception.Message;
             }
         }
     }

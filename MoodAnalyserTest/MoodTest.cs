@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using MoodAnalyserProblem;
+using System.Reflection;
+using System;
 
 namespace Tests
 {
@@ -70,6 +72,19 @@ namespace Tests
             mood = new MoodAnalyser(message);
             string returnMood = mood.analyseMood();
             Assert.AreEqual("String is empty", returnMood);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test]
+        public void checkMoodAnalyserObject_withDefaultConstructor()
+        {
+            MoodAnalyserFactory moodFactoryObject = new MoodAnalyserFactory();
+            object expected = new MoodAnalyser();
+            object returnObject =  moodFactoryObject.GetInstance("MoodAnalysis", "MoodAnalysis");
+            expected.Equals(returnObject);                  
+            Assert.AreEqual(expected,returnObject);
         }
     }
 }
