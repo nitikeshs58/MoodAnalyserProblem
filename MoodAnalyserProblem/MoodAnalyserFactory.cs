@@ -4,23 +4,31 @@ using System.Reflection;
 
 namespace MoodAnalyserProblem
 {
-    public class MoodAnalyserFactory
+    public class MoodAnalyserFactory<GenericType>
     {
         /// <summary>
         /// we will get class constructor from this method
         /// </summary>
         /// <returns></returns>
-        public ConstructorInfo[] GetConstructor()
+        public ConstructorInfo GetConstructor()
         {
             try
             {
-                Type type = typeof(MoodAnalyser);
+                Type type = typeof(GenericType);
                 ConstructorInfo[] constructor = type.GetConstructors();
-                return constructor;
+
+                foreach (ConstructorInfo cInfo in constructor)
+                {
+                    if (cInfo.GetParameters().Length == 0)
+                        return cInfo;
+                }
+                return constructor[0];
+
             }
-            catch(Exception exception)
+
+            catch (Exception exception)
             {
-                throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "Class not found");
+                throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
             }
         }
 
@@ -30,27 +38,30 @@ namespace MoodAnalyserProblem
         /// <param name="className"></param>
         /// <param name="constructor"></param>
         /// <returns></returns>
-        public object GetInstance(string className, string constructor)
+        public object GetInstance(string className, ConstructorInfo constructor)
         {
             try
             {
-                Type type = typeof(MoodAnalyser);
+                Type type = typeof(GenericType);
                 // given class not equals to type name throw exception
                 if (className != type.Name)
                 {
-                    throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "Enter valid class");
+                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "No such class found");
                 }
-                if(constructor == "MoodAnalysis")
+                if (constructor != type.GetConstructors()[0])
                 {
-                    throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
+                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
                 }
-                object objectToReturn = Activator.CreateInstance(type);
-                return objectToReturn;                             
-
+                GenericType objectToReturn = Activator.CreateInstance<GenericType>();
+                return objectToReturn;
             }
-            catch(Exception exception)
+            catch(MoodAnalysisException e)
             {
-                throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.OBJECT_CREATION_ERROR, "Error in object creation");
+                return e.Message;
+            }
+            catch(Exception Ex)
+            {
+                return Ex.Message;
             }
         }
     }

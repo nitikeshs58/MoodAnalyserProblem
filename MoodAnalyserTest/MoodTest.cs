@@ -7,7 +7,6 @@ namespace Tests
 {
     public class Tests
     {
-        MoodAnalyser mood = null;
 
        [SetUp]
         public void Setup()
@@ -21,11 +20,11 @@ namespace Tests
         /// if return mood "sad" then Test passed.
         /// </checkForSad>
         [Test]
-        public void checkForSad()
+        public void CheckForSad()
         {
             string message = "i am in sad mood";
-            mood =new MoodAnalyser(message);
-            string returnMood = mood.analyseMood();            
+            MoodAnalyser mood =new MoodAnalyser(message);
+            string returnMood = mood.AnalyseMood();            
             Assert.AreEqual("sad", returnMood);
         }
 
@@ -36,11 +35,11 @@ namespace Tests
         /// if return mood "happy" then Test passed.
         /// </checkForHappy>
         [Test]
-        public void checkForHappy()
+        public void CheckForHappy()
         {
             string message = "i am in happy mood";
-            mood = new MoodAnalyser(message);
-            string returnMood = mood.analyseMood();
+            MoodAnalyser mood = new MoodAnalyser(message);
+            string returnMood = mood.AnalyseMood();
             Assert.AreEqual("happy", returnMood);
         }
 
@@ -51,11 +50,11 @@ namespace Tests
         /// if return mood "null input passed" then Test passed.
         /// </checkForNullException>
         [Test]
-        public void checkForNullException()
+        public void CheckForNullException()
         {
             string message = null;
-            mood = new MoodAnalyser(message);
-            string returnMood = mood.analyseMood();
+            MoodAnalyser mood = new MoodAnalyser(message);
+            string returnMood = mood.AnalyseMood();
             Assert.AreEqual("null input passed", returnMood);
         }
 
@@ -66,25 +65,55 @@ namespace Tests
         /// if return mood "null input passed" then Test passed.
         /// </checkForEmptyMoodException>
         [Test]
-        public void checkForEmptyMoodException()
+        public void CheckForEmptyMoodException()
         {
             string message = "";
-            mood = new MoodAnalyser(message);
-            string returnMood = mood.analyseMood();
+            MoodAnalyser mood = new MoodAnalyser(message);
+            string returnMood = mood.AnalyseMood();
             Assert.AreEqual("String is empty", returnMood);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+
         [Test]
-        public void checkMoodAnalyserObject_withDefaultConstructor()
+        public void CheckFordefaultConstructor()
         {
-            MoodAnalyserFactory moodFactoryObject = new MoodAnalyserFactory();
-            object expected = new MoodAnalyser();
-            object returnObject =  moodFactoryObject.GetInstance("MoodAnalysis", "MoodAnalysis");
-            expected.Equals(returnObject);                  
-            Assert.AreEqual(expected,returnObject);
+                MoodAnalyser mood = new MoodAnalyser();
+                MoodAnalyserFactory<MoodAnalyser> moodFact = new MoodAnalyserFactory<MoodAnalyser>();
+                ConstructorInfo returnObject = moodFact.GetConstructor();
+                object moodAnalyserObject = new MoodAnalyser();
+                object constructor = moodFact.GetInstance("MoodAnalyser", returnObject);
+                Assert.AreEqual(moodAnalyserObject, constructor);
+            
+        }
+        [Test]
+        public void CheckForClassNotFound()
+        {
+            try
+            {
+                MoodAnalyserFactory<MoodAnalyser> moodFact = new MoodAnalyserFactory<MoodAnalyser>();
+                var returnObject = moodFact.GetConstructor();
+                var constructor = moodFact.GetInstance("MoodAnalyser", returnObject);
+            }
+            catch (Exception exception)
+            {
+                Assert.AreEqual("No such class found", exception.Message);
+            }
+        }
+
+        [Test]
+        public void CheckForMethodNotFound()
+        {
+            try
+            {
+                MoodAnalyserFactory<MoodAnalyser> moodFact = new MoodAnalyserFactory<MoodAnalyser>();
+                var returnObject = moodFact.GetConstructor();
+                ConstructorInfo mood = null;
+                var constructor = moodFact.GetInstance("MoodAnalyser", mood);
+            }
+            catch (Exception exception)
+            {
+                Assert.AreEqual("No such method found", exception.Message);
+            }
         }
     }
 }
