@@ -19,6 +19,43 @@ namespace MoodAnalyserProblem
             this.message = message;            
         }
 
+        /// <analyseMood>
+        /// Method to return the mood analysis
+        /// If user provide Invalid mood ,it return
+        /// "happy"mood by using try catch block.
+        /// </analyseMood>
+        /// <param name="message"><. mood parameter >
+        /// <returns></. Sad or Happy , type: string>
+        public string AnalyseMood()
+        {
+            try
+            {
+                if (message == null)
+                {
+                    //Calling MoodAnalysisException(Exception type->enum, message)
+                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.STRING_NULL, "null input passed");
+                }
+                if (message.Length == 0)
+                {
+                    //Calling MoodAnalysisException(Exception type->enum, message)
+                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.INVALID_STRING, "String is empty");
+                }
+
+                if (message.Contains("sad"))
+                {
+                    return "sad";
+                }
+                else
+                {
+                    return "happy";
+                }
+            }
+            catch (Exception exception)
+            {
+                return exception.Message;
+            }
+        }
+
         // customized(user) excetion extends(inheritance) Exception(inbulit library) 
         public class MoodAnalysisException:Exception
         {
@@ -40,43 +77,6 @@ namespace MoodAnalyserProblem
             public MoodAnalysisException(Exceptiontype type, string message):base(message)
             {
                 this.type = type;                
-            }
-        }
-
-        /// <analyseMood>
-        /// Method to return the mood analysis
-        /// If user provide Invalid mood ,it return
-        /// "happy"mood by using try catch block.
-        /// </analyseMood>
-        /// <param name="message"><. mood parameter >
-        /// <returns></. Sad or Happy , type: string>
-        public string analyseMood()
-        {
-            try
-            {
-                if(message==null)
-                {
-                    //Calling MoodAnalysisException(Exception type->enum, message)
-                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.STRING_NULL, "null input passed");
-                }
-                if (message.Length == 0)
-                {
-                    //Calling MoodAnalysisException(Exception type->enum, message)
-                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.INVALID_STRING, "String is empty");
-                }
-
-                if (message.Contains("sad"))
-                {
-                    return "sad";
-                }
-                else
-                {
-                    return "happy";
-                }
-            }
-            catch(Exception exception)
-            {
-                return exception.Message;
             }
         }
     }
