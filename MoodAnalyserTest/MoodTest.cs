@@ -8,7 +8,7 @@ namespace Tests
     public class Tests
     {
 
-       [SetUp]
+        [SetUp]
         public void Setup()
         {
         }
@@ -23,8 +23,8 @@ namespace Tests
         public void CheckForSad()
         {
             string message = "i am in sad mood";
-            MoodAnalyser mood =new MoodAnalyser(message);
-            string returnMood = mood.AnalyseMood();            
+            MoodAnalyser mood = new MoodAnalyser(message);
+            string returnMood = mood.AnalyseMood();
             Assert.AreEqual("sad", returnMood);
         }
 
@@ -73,20 +73,27 @@ namespace Tests
             Assert.AreEqual("String is empty", returnMood);
         }
 
-
+        /// <CheckFordefaultConstructor>
+        /// checking returnObject and GetInstance menthod object
+        /// is equal or not 
+        /// </CheckFordefaultConstructor>
         [Test]
         public void CheckFordefaultConstructor()
         {
-                MoodAnalyser mood = new MoodAnalyser();
-                MoodAnalyserFactory<MoodAnalyser> moodFact = new MoodAnalyserFactory<MoodAnalyser>();
-                ConstructorInfo returnObject = moodFact.GetConstructor();
-                object moodAnalyserObject = new MoodAnalyser();
-                object constructor = moodFact.GetInstance("MoodAnalyser", returnObject);
-                Assert.AreEqual(moodAnalyserObject, constructor);
-            
+            MoodAnalyser mood = new MoodAnalyser();
+            MoodAnalyserFactory<MoodAnalyser> moodFact = new MoodAnalyserFactory<MoodAnalyser>();
+            ConstructorInfo returnObject = moodFact.GetConstructor();
+            // object moodAnalyserObject = new MoodAnalyser();
+            object constructor = moodFact.GetInstance("MoodAnalyser", returnObject);
+            Assert.IsInstanceOf(typeof(MoodAnalyser), constructor);
         }
+
+        /// <CheckForClassNotFoundWithDefaultConstructor>
+        /// Handling exception and checking class not found
+        /// or not
+        /// </CheckForClassNotFoundWithDefaultConstructor>
         [Test]
-        public void CheckForClassNotFound()
+        public void CheckForClassNotFoundWithDefaultConstructor()
         {
             try
             {
@@ -94,14 +101,18 @@ namespace Tests
                 var returnObject = moodFact.GetConstructor();
                 var constructor = moodFact.GetInstance("MoodAnalyser", returnObject);
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Assert.AreEqual("No such class found", exception.Message);
+                Assert.AreEqual("No such class found", e.Message);
             }
         }
 
+        /// <CheckForMethodNotFoundWithDefaultConstructor>
+        /// Sending two arguments to GetInstance
+        /// checking menthod not found exception message.
+        /// </CheckForMethodNotFoundWithDefaultConstructor>
         [Test]
-        public void CheckForMethodNotFound()
+        public void CheckForMethodNotFoundWithDefaultConstructor()
         {
             try
             {
@@ -114,6 +125,75 @@ namespace Tests
             {
                 Assert.AreEqual("No such method found", exception.Message);
             }
+        }
+
+        /// <CheckForParamterisedConstructor>
+        /// object return is equal to
+        /// actual object or not
+        /// then test passes
+        /// </CheckForParamterisedConstructor>
+        [Test]
+        public void CheckForParamterisedConstructor()
+        {
+            MoodAnalyser mood = new MoodAnalyser("i am in sad mood");
+            MoodAnalyserFactory<MoodAnalyser> analyser = new MoodAnalyserFactory<MoodAnalyser>();
+            ConstructorInfo returnObject = analyser.ParameterisedConstructor(1);
+            object constructor = analyser.GetInstance("MoodAnalyzer", returnObject, "i am in sad mood");
+            Assert.IsInstanceOf(typeof(MoodAnalyser), constructor);
+
+        }
+        /// <CheckForClassNotFoundForParameterisedConstructor>
+        /// sending 3 arguments in GetInstance method
+        /// checking string message of constructor
+        /// and passes the test case
+        /// </CheckForClassNotFoundForParameterisedConstructor>
+        [Test]
+        public void CheckForClassNotFoundForParameterisedConstructor()
+        {
+            try
+            {
+                MoodAnalyserFactory<MoodAnalyser> analyser = new MoodAnalyserFactory<MoodAnalyser>();
+                ConstructorInfo returnObject = analyser.ParameterisedConstructor(1);
+                object constructor = analyser.GetInstance("mood", returnObject, "i am in sad mood");
+            }
+
+            catch (Exception ex)
+            {
+                Assert.AreEqual("class not found", ex.Message);
+            }
+        }
+
+        /// <CheckForMethodNotFoundForParameterisedConstructor>
+        /// checking exception message are equal
+        /// then test case passes.
+        /// </CheckForMethodNotFoundForParameterisedConstructor>
+        [Test]
+        public void CheckForMethodNotFoundForParameterisedConstructor()
+        {
+            try
+            {
+                MoodAnalyserFactory<MoodAnalyser> moodFact = new MoodAnalyserFactory<MoodAnalyser>();
+                ConstructorInfo returnObject = moodFact.ParameterisedConstructor(1);
+                ConstructorInfo mood = null;
+                object constructor = moodFact.GetInstance("MoodAnalyzer", mood, "i am in sad mood");
+            }
+            catch (Exception exception)
+            {
+                Assert.AreEqual("method not found", exception.Message);
+            }
+        }
+
+        /// <CheckHappyMoodReturnsHappy>
+        /// sending string mood as "happy" in InvokeChangeMood method
+        /// when returnMood is also "happy"
+        /// this test case passes
+        /// </CheckHappyMoodReturnsHappy>
+        [Test]
+        public void CheckHappyMoodReturnsHappy()
+        {
+            MoodAnalyserFactory<MoodAnalyser> moodFact = new MoodAnalyserFactory<MoodAnalyser>();
+            object returnMood = moodFact.InvokeChangeMood("happy");
+            Assert.AreEqual("happy", returnMood);
         }
     }
 }
