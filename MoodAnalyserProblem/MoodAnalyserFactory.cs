@@ -14,28 +14,43 @@ namespace MoodAnalyserProblem
         /// <param name="constructor"></param>
         /// <returns></returns>
 <<<<<<< HEAD
+<<<<<<< HEAD
         public ConstructorInfo GetConstructor()
 =======
         public object GetInstance(string className, ConstructorInfo constructor)
 >>>>>>> UC5_ReflectionParameterConstructor
+=======
+        public object GetInstance(string className, ConstructorInfo constructor)
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
         {
             try
             {
                 Type type = typeof(GenericType);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 ConstructorInfo[] constructor = type.GetConstructors();
 
                 foreach (ConstructorInfo cInfo in constructor)
+=======
+                // given class not equals to type name throw exception
+                if (className != type.Name)
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
                 {
-                    if (cInfo.GetParameters().Length == 0)
-                        return cInfo;
+                    throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "No such class found");
                 }
-                return constructor[0];
-
+                if (constructor != type.GetConstructors()[0])
+                {
+                    throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
+                }
+                var obj = constructor.Invoke(new object[0]);
+                Console.WriteLine("name obj " + obj);
+                GenericType ReturnObject = Activator.CreateInstance<GenericType>();
+                Console.WriteLine("name return object " + ReturnObject);
+                return ReturnObject;
             }
-
-            catch (Exception exception)
+            catch (MoodAnalyser.MoodAnalysisException e)
             {
+<<<<<<< HEAD
                 throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
 =======
                 // given class not equals to type name throw exception
@@ -55,12 +70,17 @@ namespace MoodAnalyserProblem
             }
             catch (MoodAnalyser.MoodAnalysisException e)
             {
+=======
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
                 return e.Message;
             }
             catch (Exception Ex)
             {
                 return Ex.Message;
+<<<<<<< HEAD
 >>>>>>> UC5_ReflectionParameterConstructor
+=======
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
             }
         }
 
@@ -72,10 +92,14 @@ namespace MoodAnalyserProblem
         /// <param name="constructor"></param>
         /// <returns></returns>
 <<<<<<< HEAD
+<<<<<<< HEAD
         public object GetInstance(string className, ConstructorInfo constructor)
 =======
         public object GetInstance(string className, ConstructorInfo constructor, string message)
 >>>>>>> UC5_ReflectionParameterConstructor
+=======
+        public object GetInstance(string className, ConstructorInfo constructor, string message)
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
         {
             try
             {
@@ -83,6 +107,7 @@ namespace MoodAnalyserProblem
                 // given class not equals to type name throw exception
                 if (className != "MoodAnalyzer")
                 {
+<<<<<<< HEAD
 <<<<<<< HEAD
                     throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "No such class found");
                 }
@@ -92,18 +117,27 @@ namespace MoodAnalyserProblem
                 }
                 if (constructor != type.GetConstructors()[1])
 >>>>>>> UC5_ReflectionParameterConstructor
+=======
+                    throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "No such class found");
+                }
+                if (constructor != type.GetConstructors()[1])
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
                 {
-                    throw new MoodAnalysisException(MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
+                    throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
                 GenericType objectToReturn = Activator.CreateInstance<GenericType>();
+=======
+                object objectToReturn = Activator.CreateInstance(type, message);
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
                 return objectToReturn;
             }
-            catch(MoodAnalysisException e)
+            catch (MoodAnalyser.MoodAnalysisException e)
             {
                 return e.Message;
             }
-            catch(Exception Ex)
+            catch (Exception Ex)
             {
                 return Ex.Message;
 =======
@@ -167,6 +201,61 @@ namespace MoodAnalyserProblem
                 throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "no such class found");
 >>>>>>> UC5_ReflectionParameterConstructor
             }
+        }
+
+        /// <summary>
+        /// we will get class constructor from this method
+        /// </summary>
+        /// <returns></returns>
+        public ConstructorInfo GetConstructor()
+        {
+            try
+            {
+                Type type = typeof(GenericType);
+                ConstructorInfo[] constructor = type.GetConstructors();
+
+                foreach (ConstructorInfo cInfo in constructor)
+                {
+                    if (cInfo.GetParameters().Length == 0)
+                        return cInfo;
+                }
+                return constructor[0];
+
+            }
+
+            catch (Exception exception)
+            {
+                throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_METHOD_ERROR, "No such method found");
+            }
+        }
+
+        public ConstructorInfo ParameterisedConstructor(int numberOfParameter)
+        {
+            try
+            {
+                Type type = typeof(GenericType);
+                ConstructorInfo[] constructor = type.GetConstructors();
+                foreach (ConstructorInfo c in constructor)
+                {
+                    if (c.GetParameters().Length == numberOfParameter)
+                    {
+                        Console.WriteLine(c);
+                        return c;
+                    }
+                }
+                return constructor[0];
+            }
+            catch (Exception exception)
+            {
+                throw new MoodAnalyser.MoodAnalysisException(MoodAnalyser.MoodAnalysisException.Exceptiontype.NO_SUCH_CLASS_ERROR, "no such class found");
+            }
+        }
+
+        public object InvokeChangeMood(string mood)
+        {
+            MoodAnalyser moodObject = new MoodAnalyser("happy");
+            object invokeObject=moodObject.AnalyseMood();
+            return invokeObject;
         }
     }
 }

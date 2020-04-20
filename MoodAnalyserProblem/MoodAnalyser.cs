@@ -17,10 +17,14 @@ namespace MoodAnalyserProblem
         public MoodAnalyser(String message)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.message = message;
 =======
             this.message = message;            
 >>>>>>> UC5_ReflectionParameterConstructor
+=======
+            this.message = message;            
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
         }
 
         /// <analyseMood>
@@ -59,6 +63,7 @@ namespace MoodAnalyserProblem
                 return exception.Message;
             }
         }
+<<<<<<< HEAD
 
         // customized(user) excetion extends(inheritance) Exception(inbulit library) 
         public class MoodAnalysisException:Exception
@@ -89,22 +94,31 @@ namespace MoodAnalyserProblem
     {
         //Exceptiontype variable declared
         Exceptiontype type;
+=======
+>>>>>>> UC6_ReflectionInvokeAnalyseMoodMethod
 
-        //enum declarationn to give constant values
-        public enum Exceptiontype
+        // customized(user) excetion extends(inheritance) Exception(inbulit library) 
+        public class MoodAnalysisException:Exception
         {
-            INVALID_STRING,
-            STRING_NULL,
-            OBJECT_CREATION_ERROR,
-            NO_SUCH_METHOD_ERROR,
-            NO_SUCH_CLASS_ERROR
-        }
-        /// <MoodAnalysisException>
-        /// base: calling to super class (in this our super class is constructor)
-        /// </MoodAnalysisException>
-        public MoodAnalysisException(Exceptiontype type, string message) : base(message)
-        {
-            this.type = type;
+            //Exceptiontype variable declared
+            Exceptiontype type;
+
+            //enum declarationn to give constant values
+            public enum Exceptiontype
+            {
+                INVALID_STRING,
+                STRING_NULL,
+                OBJECT_CREATION_ERROR,
+                NO_SUCH_METHOD_ERROR,
+                NO_SUCH_CLASS_ERROR
+            }
+            /// <MoodAnalysisException>
+            /// base: calling to super class (in this our super class is constructor)
+            /// </MoodAnalysisException>
+            public MoodAnalysisException(Exceptiontype type, string message):base(message)
+            {
+                this.type = type;                
+            }
         }
     }
 }
