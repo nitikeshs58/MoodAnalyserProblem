@@ -16,7 +16,11 @@ namespace MoodAnalyserProblem
         // Parameterised Constructor
         public MoodAnalyser(String message)
         {
+<<<<<<< HEAD
             this.message = message;
+=======
+            this.message = message;            
+>>>>>>> UC5_ReflectionParameterConstructor
         }
 
         /// <analyseMood>
@@ -53,6 +57,30 @@ namespace MoodAnalyserProblem
             catch (Exception exception)
             {
                 return exception.Message;
+            }
+        }
+
+        // customized(user) excetion extends(inheritance) Exception(inbulit library) 
+        public class MoodAnalysisException:Exception
+        {
+            //Exceptiontype variable declared
+            Exceptiontype type;
+
+            //enum declarationn to give constant values
+            public enum Exceptiontype
+            {
+                INVALID_STRING,
+                STRING_NULL,
+                OBJECT_CREATION_ERROR,
+                NO_SUCH_METHOD_ERROR,
+                NO_SUCH_CLASS_ERROR
+            }
+            /// <MoodAnalysisException>
+            /// base: calling to super class (in this our super class is constructor)
+            /// </MoodAnalysisException>
+            public MoodAnalysisException(Exceptiontype type, string message):base(message)
+            {
+                this.type = type;                
             }
         }
     }
